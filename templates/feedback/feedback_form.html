@@ -1,0 +1,12 @@
+{% load i18n staticfiles %}
+
+<style type="text/css">
+	@import url("{% static "feedback/styles.css" %}");
+</style>
+<script type="text/javascript" src="{% static "feedback/script.js"%}"></script>
+<div id="ZenaidaFeedback">
+	<a class="zf-popup-tab">{% trans "Feedback" %}</a>
+	<div class="zf-body">
+		{{ form.as_p }}
+	</div>
+</div>
