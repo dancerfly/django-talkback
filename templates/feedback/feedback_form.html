@@ -6,7 +6,8 @@
 <div id="ZenaidaFeedback">
 	<a class="zf-popup-tab" href="javascript:void(0);">{% trans "Give Feedback" %}</a>
 	<div class="zf-body">
-		<form action="{% url 'zenaida.contrib.feedback.views.feedback_ajax_submit' %}" method="post">
+		{# http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing #}
+		<form action="{% url 'zenaida.contrib.feedback.views.feedback_ajax_submit' %}" method="post" autocomplete="off">
 			{{ form.as_p }}
 			{% csrf_token %}
 			<div class="zf-body-footer">

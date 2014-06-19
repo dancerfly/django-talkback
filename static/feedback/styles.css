@@ -80,6 +80,10 @@
 	background: #068;
 }
 
+.zf-thanks {
+	padding: 10px;
+}
+
 @media (min-width: 440px) {
 	#ZenaidaFeedback {
 		left: auto;
