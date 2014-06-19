@@ -38,4 +38,14 @@ class FeedbackAdmin(admin.ModelAdmin):
         "request_files",
     )
 
+    def mark_resolved(self, request, queryset):
+        queryset.update(resolved=True)
+    mark_resolved.short_description = "Mark these items as resolved."
+
+    def mark_unresolved(self, request, queryset):
+        queryset.update(resolved=False)
+    mark_resolved.short_description = "Mark these items as not resolved."
+
+    actions = [mark_resolved, mark_unresolved]
+
 admin.site.register(FeedbackItem, FeedbackAdmin)
