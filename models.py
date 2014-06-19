@@ -5,7 +5,7 @@ from django.db import models
 class FeedbackItem(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    resolved = models.BooleanField(default=True)
+    resolved = models.BooleanField(default=False)
     content = models.TextField()
     screenshot = models.FileField(blank=True, null=True, upload_to="feedback/screenshots")
 
@@ -24,3 +24,9 @@ class FeedbackItem(models.Model):
     request_get = models.TextField(blank=True, null=True)
     request_post = models.TextField(blank=True, null=True)
     request_files = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return "{username} at {path}".format(
+            username=self.user.get_full_name(),
+            path = self.request_path
+        )
