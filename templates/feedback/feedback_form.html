@@ -3,10 +3,16 @@
 <style type="text/css">
 	@import url("{% static "feedback/styles.css" %}");
 </style>
-<script type="text/javascript" src="{% static "feedback/script.js"%}"></script>
 <div id="ZenaidaFeedback">
-	<a class="zf-popup-tab">{% trans "Feedback" %}</a>
+	<a id="zf-popup-tab" href="javascript:void(0);">{% trans "Give Feedback" %}</a>
 	<div class="zf-body">
-		{{ form.as_p }}
+		<form action="{% url 'zenaida.contrib.feedback.views.feedback_ajax_submit' %}" method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<div class="zf-body-footer">
+				<button>Submit Feedback</button>
+			</div>
+		</form>
 	</div>
 </div>
+<script type="text/javascript" src="{% static "feedback/script.js"%}"></script>

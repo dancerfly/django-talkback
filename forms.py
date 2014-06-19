@@ -6,6 +6,7 @@ from zenaida.contrib.feedback.models import FeedbackItem
 class FeedbackForm(forms.ModelForm):
     user = forms.IntegerField(widget=forms.HiddenInput)
     view = forms.CharField(widget=forms.HiddenInput)
+    content = forms.CharField(label="Your Message", widget=forms.Textarea)
     request_path = forms.CharField(widget=forms.HiddenInput)
     request_method = forms.CharField(widget=forms.HiddenInput)
     request_encoding = forms.CharField(widget=forms.HiddenInput)
