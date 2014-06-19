@@ -1,6 +1,16 @@
 (function () {
 	"use strict";
 
+	var $;
+
+	if ('jQuery' in window && typeof jQuery !== "undefined") {
+		$ = jQuery;
+	} else if ('zf' in window && 'jQuery' in window.zf) {
+		$ = zf.jQuery;
+	} else {
+		if ('console' in window) console.warn("Zenaida feedback does not work without jQuery. Please specify FEEDBACK_CONFIG['JQUERY_URL'] in settings.py.");
+	}
+
 	var FORMDATA_SUPPORT = 'FormData' in window,
 		$popupTab = $(".zf-popup-tab"),
 		$popup = $("#ZenaidaFeedback"),

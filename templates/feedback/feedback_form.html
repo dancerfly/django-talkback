@@ -29,5 +29,8 @@
 </div>
 {% if config.JQUERY_URL %}
 	<script type="text/javascript" src="{{ config.JQUERY_URL }}"></script>
+	<script type="text/javascript">
+		window.zf = {'jQuery': jQuery.noConflict(true)};
+	</script>
 {% endif %}
 <script type="text/javascript" src="{% static "feedback/script.js"%}"></script>
