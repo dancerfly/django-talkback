@@ -30,3 +30,6 @@ class FeedbackItem(models.Model):
             username=self.user.get_full_name(),
             path = self.request_path
         )
+
+    class Meta:
+        ordering = ["-timestamp"]
