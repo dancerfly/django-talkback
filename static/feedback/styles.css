@@ -13,7 +13,9 @@
 	padding: 0 20px;
 	display: block;
 	background: #666;
-	color: #FFF;
+	color: #FFF !important;
+	text-decoration: none !important;
+	box-sizing: border-box;
 }
 #ZenaidaFeedback .zf-body {
 	border: 1px solid #CCC;
@@ -26,7 +28,10 @@
 	transition: height .15s linear;
 }
 #ZenaidaFeedback.in .zf-body {
-	height: 210px;
+	height: auto;
+}
+#ZenaidaFeedback.in .zf-popup-tab {
+	width: 100%;
 }
 
 .zf-body label {
@@ -81,7 +86,9 @@
 }
 
 .zf-thanks {
-	padding: 10px;
+	padding: 40px 10px;
+	text-align: center;
+	font-size: 1.5em;
 }
 
 @media (min-width: 440px) {
