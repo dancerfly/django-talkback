@@ -12,6 +12,6 @@ def feedback_ajax_submit(request):
         form = FeedbackForm(request, request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponse(json.dumps({}), content_type="application/json")
+            return HttpResponse(json.dumps({'message': 'Thank you for your feedback!'}), content_type="application/json")
         else:
             return HttpResponseBadRequest(form.errors.as_json(), content_type="application/json")

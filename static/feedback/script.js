@@ -7,6 +7,8 @@
 		$form = $("#ZenaidaFeedback form"),
 		$popupBody = $(".zf-body"),
 		$submitButton = $("#ZenaidaFeedback form button"),
+		$messageContainer = $(".zf-message-container"),
+		initial_submit_text = $submitButton.text(),
 		bind_submit = function () {
 			$form.one("submit", on_submit);
 		},
@@ -15,9 +17,13 @@
 			// Otherwise jQuery.fn.serialize ignores file inputs.
 			var form_data = FORMDATA_SUPPORT ? new FormData($form[0]) : $form.serialize();
 
+			// Adjust the submit button:
 			$submitButton.attr("disabled", "disabled");
 			$submitButton.css({"opacity":.5});
 			$submitButton.text("Submitting...");
+
+			// Clear the message container:
+			$messageContainer.html("");
 
 			$.ajax({
 				type: $form.attr('method'),
@@ -29,7 +35,33 @@
 				// Content type also depends on FormData support:
 				contentType: FORMDATA_SUPPORT ? false : 'application/x-www-form-urlencoded; charset=UTF-8',
 				success: function (data) {
-					$popupBody.html("<div class='zf-thanks'>Thanks for your feedback!</div>")
+					$popupBody.html("<div class='zf-thanks'>" + data.message + "</div>");
+				},
+				error: function (jqx, status, err) {
+					var error_data;
+					if (err == "BAD REQUEST") {
+						// If it's a 400 error, process the returned response:
+						error_data = $.parseJSON(jqx.responseText);
+						$.each(error_data, function (k, v) {
+							// Add error to the message container:
+							var message;
+							if (v[0].code == "required") {
+								message = "Field <b>" + k + "</b> is required.";
+							} else {
+								message = '<b>'+ k +':</b> ' + v[0].message
+							}
+							$messageContainer.append('<div class="zf-message-error">' + message + '</div>');
+						});
+					} else {
+						// If it's not a 400 error, I have no idea what's going on.
+						$messageContainer.append('<div class="zf-message-error">An unknown error occurred: ' + err + '. Please email a site administrator directly.</div>');
+					}
+					// Readjust button for resubmission:
+					$submitButton.removeAttr("disabled");
+					$submitButton.css({"opacity": 1});
+					$submitButton.text(initial_submit_text);
+					// Rebind the submit event:
+					bind_submit();
 				}
 			});
 		};

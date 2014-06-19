@@ -97,6 +97,14 @@
 	font-size: 1.5em;
 }
 
+.zf-message-error{
+	border-radius: 3px;
+	padding: 5px 10px;
+	background: #800;
+	color: #FFF;
+	margin: 5px;
+}
+
 @media (min-width: 440px) {
 	#ZenaidaFeedback {
 		left: auto;
