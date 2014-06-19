@@ -7,7 +7,7 @@ CONFIG_DEFAULTS = {
     'JQUERY_URL': None,
 }
 
-USER_CONFIG = getattr(settings, 'DEBUG_TOOLBAR_CONFIG', {})
+USER_CONFIG = getattr(settings, 'FEEDBACK_CONFIG', {})
 
 CONFIG = CONFIG_DEFAULTS.copy()
 CONFIG.update(USER_CONFIG)
