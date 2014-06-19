@@ -17,6 +17,10 @@ class FeedbackMiddleware(object):
     def process_response(self, request, response):
         "Inject the feedback form into the response."
 
+        # If the view is in the ignored namespaces, short-circuit:
+        if request.resolver_match.namespace in CONFIG['IGNORED_NAMESPACES']:
+            return response
+
         # Currently feedback can only be submitted when logged in.
         if not request.user.is_authenticated():
             return response
