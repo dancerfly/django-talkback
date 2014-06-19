@@ -15,9 +15,14 @@ class FeedbackForm(forms.ModelForm):
     """
 
     # Comprehensively, fields from the model:
-    user = forms.ModelChoiceField(queryset=get_user_model().objects.all(), widget=forms.HiddenInput, required=True)
+    user = forms.ModelChoiceField(queryset=get_user_model().objects.all(),
+                                  widget=forms.HiddenInput, required=True)
     view = forms.CharField(widget=forms.HiddenInput, required=True)
-    content = forms.CharField(label="Your Message", widget=forms.Textarea, required=True)
+    content = forms.CharField(label="Your Message", widget=forms.Textarea,
+                              required=True)
+    screenshot = forms.ImageField(label="Screenshot", widget=forms.FileInput,
+                                  required=False,
+                                  help_text='Upload an optional screenshot, if applicable. <a href="http://www.take-a-screenshot.org/" target="_blank">How do I take a screenshot?</a>')
     request_path = forms.CharField(widget=forms.HiddenInput, required=True)
     request_method = forms.CharField(widget=forms.HiddenInput, required=True)
     request_encoding = forms.CharField(widget=forms.HiddenInput, required=False)

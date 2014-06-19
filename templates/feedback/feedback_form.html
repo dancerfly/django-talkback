@@ -8,7 +8,16 @@
 	<div class="zf-body">
 		{# http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing #}
 		<form action="{% url 'zenaida.contrib.feedback.views.feedback_ajax_submit' %}" method="post" autocomplete="off">
-			{{ form.as_p }}
+			{% for field in form.visible_fields %}
+				<div class="zf-control-group">
+					{{ field.label_tag }}
+					{{ field }}
+					<div class="zf-help-text">{{ field.help_text|safe }}</div>
+				</div>
+			{% endfor %}
+			{% for field in form.hidden_fields %}
+				{{ field }}
+			{% endfor %}
 			{% csrf_token %}
 			<div class="zf-body-footer">
 				<button>Submit Feedback</button>

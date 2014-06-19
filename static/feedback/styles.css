@@ -41,14 +41,14 @@
 	left: 10px;
 	box-sizing: border-box;
 }
-.zf-body p {
+.zf-control-group {
 	clear: both;
 	padding: 10px;
 	margin: 0;
 	border-top: 1px solid #CCC;
 	position: relative;
 }
-.zf-body p:first-child {
+.zf-control-group:first-child {
 	border-top: 0;
 }
 .zf-body input, .zf-body textarea {
@@ -56,6 +56,12 @@
 	box-sizing: border-box;
 	margin: 0 0 0 30%;
 	height: 20px;
+}
+.zf-help-text {
+	width: 70%;
+	box-sizing: border-box;
+	margin: 0 0 0 30%;
+	color: #999;
 }
 .zf-body textarea {
 	border: 1px solid #CCC;
