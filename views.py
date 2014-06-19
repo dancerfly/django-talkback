@@ -9,7 +9,7 @@ def feedback_ajax_submit(request):
     if not request.POST:
         return HttpResponseNotAllowed(['POST'])
     else:
-        form = FeedbackForm(request, request.POST)
+        form = FeedbackForm(request, request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponse(json.dumps({}), content_type="application/json")
