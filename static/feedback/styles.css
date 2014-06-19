@@ -6,7 +6,7 @@
 	font-size: 12px;
 }
 
-#zf-popup-tab {
+.zf-popup-tab {
 	float: right;
 	height: 40px;
 	line-height: 40px;
@@ -23,7 +23,7 @@
 	clear: both;
 	height: 0;
 	overflow: hidden;
-	transition: height .35s linear;
+	transition: height .15s linear;
 }
 #ZenaidaFeedback.in .zf-body {
 	height: 210px;

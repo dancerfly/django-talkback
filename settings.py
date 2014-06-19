@@ -4,6 +4,7 @@ __all__ = ('CONFIG',)
 
 CONFIG_DEFAULTS = {
     'INSERT_BEFORE': '</body>',
+    'JQUERY_URL': None,
 }
 
 USER_CONFIG = getattr(settings, 'DEBUG_TOOLBAR_CONFIG', {})
