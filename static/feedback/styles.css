@@ -1,5 +1,5 @@
 #ZenaidaFeedback {
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	right: 20px;
 	left: 20px;
@@ -109,6 +109,5 @@
 	#ZenaidaFeedback {
 		left: auto;
 		width: 400px;
-		position: fixed;
 	}
 }
