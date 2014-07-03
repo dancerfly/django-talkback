@@ -6,7 +6,9 @@ from django.utils.encoding import force_text
 from zenaida.contrib.feedback.settings import CONFIG
 from zenaida.contrib.feedback.utils import render_feedback_widget
 
+
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
+
 
 class FeedbackMiddleware(object):
     """
@@ -18,7 +20,8 @@ class FeedbackMiddleware(object):
         "Inject the feedback form into the response."
 
         # If the view is in the ignored namespaces, short-circuit:
-        if request.resolver_match.namespace in CONFIG['IGNORED_NAMESPACES']:
+        if (request.resolver_match is not None and
+                request.resolver_match.namespace in CONFIG['IGNORED_NAMESPACES']):
             return response
 
         # Currently feedback can only be submitted when logged in.
