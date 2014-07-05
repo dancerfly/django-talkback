@@ -38,7 +38,7 @@ class FeedbackForm(forms.ModelForm):
 
         security_hash_dict = {
             'user': request.user if request.user.is_authenticated() else None,
-            'view': request.resolver_match.view_name,
+            'view': request.resolver_match.view_name if request.resolver_match is not None else '',
             'request_path': request.path,
             'request_method': request.method,
             'request_encoding': request.encoding,
