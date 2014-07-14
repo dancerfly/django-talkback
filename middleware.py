@@ -25,7 +25,7 @@ class FeedbackMiddleware(object):
             return response
 
         # Currently feedback can only be submitted when logged in.
-        if not request.user.is_authenticated():
+        if not hasattr(request, 'user') or not request.user.is_authenticated():
             return response
 
         # Check for responses where the feedback can't be inserted.
