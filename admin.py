@@ -4,6 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 from zenaida.contrib.feedback.models import FeedbackItem
 
 class ResolvedListFilter(admin.SimpleListFilter):
+    """
+    Filter for FeedbackAdmin, which filters on the `resolved` field,
+    but defaults to showing unresolved items.
+
+    """
+
     title = _("resolved")
     parameter_name = "resolved"
 
@@ -11,7 +17,7 @@ class ResolvedListFilter(admin.SimpleListFilter):
         return (
             ("all", _("All")),
             (None, _("No")),
-            ("1", _("Yes"))
+            ("yes", _("Yes"))
         )
 
     def choices(self, cl):
@@ -27,7 +33,7 @@ class ResolvedListFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value() == "all":
             return queryset
-        elif self.value() == 1:
+        elif self.value() == "yes":
             return queryset.filter(resolved=True)
         else:
             return queryset.filter(resolved=False)
@@ -75,7 +81,7 @@ class FeedbackAdmin(admin.ModelAdmin):
 
     def mark_unresolved(self, request, queryset):
         queryset.update(resolved=False)
-    mark_resolved.short_description = "Mark these items as not resolved."
+    mark_unresolved.short_description = "Mark these items as not resolved."
 
     actions = [mark_resolved, mark_unresolved]
 
