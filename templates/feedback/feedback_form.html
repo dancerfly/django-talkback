@@ -6,25 +6,27 @@
 <div id="ZenaidaFeedback">
 	<a class="zf-popup-tab" href="javascript:void(0);">{% trans "Give Feedback" %}</a>
 	<div class="zf-body">
-		<div class="zf-message-container">
-		</div>
-		{# http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing #}
-		<form action="{% url 'zenaida.contrib.feedback.views.feedback_ajax_submit' %}" enctype="multipart/form-data" method="post" autocomplete="off">
-			{% for field in form.visible_fields %}
-				<div class="zf-control-group" id="zf-{{ field.name }}-group">
-					{{ field.label_tag }}
+		<div class="zf-message zf-message-error"></div>
+		<div class="zf-message zf-message-thanks"></div>
+		<div class="zf-form">
+			{# http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing #}
+			<form action="{% url 'zenaida.contrib.feedback.views.feedback_ajax_submit' %}" enctype="multipart/form-data" method="post" autocomplete="off">
+				{% for field in form.visible_fields %}
+					<div class="zf-control-group" id="zf-{{ field.name }}-group">
+						{{ field.label_tag }}
+						{{ field }}
+						<div class="zf-help-text">{{ field.help_text|safe }}</div>
+					</div>
+				{% endfor %}
+				{% for field in form.hidden_fields %}
 					{{ field }}
-					<div class="zf-help-text">{{ field.help_text|safe }}</div>
+				{% endfor %}
+				{% csrf_token %}
+				<div class="zf-body-footer">
+					<button>Submit Feedback</button>
 				</div>
-			{% endfor %}
-			{% for field in form.hidden_fields %}
-				{{ field }}
-			{% endfor %}
-			{% csrf_token %}
-			<div class="zf-body-footer">
-				<button>Submit Feedback</button>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </div>
 {% if config.JQUERY_URL %}
@@ -34,3 +36,10 @@
 	</script>
 {% endif %}
 <script type="text/javascript" src="{% static "feedback/script.js"%}"></script>
+<script type="text/javascript">
+	zf_feedback.l10n = {
+		'required_field': '{% blocktrans with field_name="__FIELDNAME__" %}Field {{ field_name }} is required.{% endblocktrans %}',
+		'unknown_error': '{% blocktrans with error="__ERROR__" %}An unknown error occurred: {{ error }}. Please email a site administrator directly.{% endblocktrans %}',
+		'submitting': "Submitting..."
+	}
+</script>

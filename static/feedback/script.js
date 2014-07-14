@@ -1,7 +1,11 @@
 (function () {
 	"use strict";
 
-	var $;
+	var $,
+		zf_feedback = window.zf_feedback = {};
+
+	// Keep track of divs that need to be cleaned up sometimes:
+	zf_feedback.message_divs = [];
 
 	if ('jQuery' in window && typeof jQuery !== "undefined") {
 		$ = jQuery;
@@ -21,10 +25,26 @@
 		$form = $("#ZenaidaFeedback form"),
 		$popupBody = $(".zf-body"),
 		$submitButton = $("#ZenaidaFeedback form button"),
-		$messageContainer = $(".zf-message-container"),
+		$errorMessage = $(".zf-message-error"),
+		$thanksMessage = $(".zf-message-thanks"),
 		initial_submit_text = $submitButton.text(),
 		bind_submit = function () {
 			$form.one("submit", on_submit);
+		},
+		create_error_message = function (message_content) {
+			// Create the message div:
+			var message = $errorMessage.clone().html(message_content).show();
+			// Keep track of this div:
+			zf_feedback.message_divs.push(message);
+			// Append after the error message template:
+			$errorMessage.after(message);
+		},
+		clear_error_messages = function () {
+			// Clear the message divs:
+			for (var i = 0; i < zf_feedback.message_divs.length; i++) {
+				zf_feedback.message_divs[i].remove();
+				zf_feedback.message_divs.splice(0, 1);
+			}
 		},
 		on_submit = function (e) {
 			// If HTML5 FormData support exists, file-uploads will work.
@@ -34,10 +54,9 @@
 			// Adjust the submit button:
 			$submitButton.attr("disabled", "disabled");
 			$submitButton.css({"opacity":.5});
-			$submitButton.text("Submitting...");
+			$submitButton.text(zf_feedback.l10n.submitting);
 
-			// Clear the message container:
-			$messageContainer.html("");
+			clear_error_messages();
 
 			$.ajax({
 				type: $form.attr('method'),
@@ -49,7 +68,9 @@
 				// Content type also depends on FormData support:
 				contentType: FORMDATA_SUPPORT ? false : 'application/x-www-form-urlencoded; charset=UTF-8',
 				success: function (data) {
-					$popupBody.html("<div class='zf-thanks'>" + data.message + "</div>");
+					$form.hide();
+					$thanksMessage.html(data.message);
+					$thanksMessage.show();
 				},
 				error: function (jqx, status, err) {
 					var error_data;
@@ -59,16 +80,17 @@
 						$.each(error_data, function (k, v) {
 							// Add error to the message container:
 							var message;
+
 							if (v[0].code == "required") {
-								message = "Field <b>" + k + "</b> is required.";
+								message = zf_feedback.l10n.required_field.replace("__FIELDNAME__", "<b>" + k + "</b>");
 							} else {
 								message = '<b>'+ k +':</b> ' + v[0].message
 							}
-							$messageContainer.append('<div class="zf-message-error">' + message + '</div>');
+							create_error_message(message);
 						});
 					} else {
 						// If it's not a 400 error, I have no idea what's going on.
-						$messageContainer.append('<div class="zf-message-error">An unknown error occurred: ' + err + '. Please email a site administrator directly.</div>');
+						create_error_message(zf_feedback.l10n.unknown_error.replace("__ERR__", err))
 					}
 					// Readjust button for resubmission:
 					$submitButton.removeAttr("disabled");
@@ -84,6 +106,9 @@
 	$popupTab.click(function () {
 		$popup.toggleClass("in");
 	});
+
+	// Hide the message templates/divs:
+	$('.zf-message').hide()
 
 	if (!FORMDATA_SUPPORT) {
 		// Asynchronous file upload not supported:
