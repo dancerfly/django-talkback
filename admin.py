@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib import admin
+from django.template.defaultfilters import linebreaksbr
 from django.utils.translation import ugettext_lazy as _
 
 from zenaida.contrib.feedback.models import FeedbackItem
@@ -40,7 +42,7 @@ class ResolvedListFilter(admin.SimpleListFilter):
 
 def _preformatted_display_method(attr_name):
     def inner(self, obj):
-        return getattr(obj, attr_name).replace("\n","<br />").replace("  ","&nbsp;&nbsp;").replace("<br /> ","&nbsp;")
+        return linebreaksbr(getattr(obj, attr_name).replace("  ","&nbsp;&nbsp;").replace("\n ","&nbsp;"))
     return inner
 
 class FeedbackAdmin(admin.ModelAdmin):
@@ -54,7 +56,7 @@ class FeedbackAdmin(admin.ModelAdmin):
             'fields': ('resolved',)
         }),
         ("Content", {
-            'fields': ("user", ("content", "screenshot",),)
+            'fields': ("user", ("content_html", "screenshot_html",),)
         }),
         ("Request Data", {
             'fields': (
@@ -67,8 +69,8 @@ class FeedbackAdmin(admin.ModelAdmin):
 
     readonly_fields = (
         "user",
-        "content",
-        "screenshot",
+        "content_html",
+        "screenshot_html",
         "view",
         "request_path",
         "request_method",
@@ -88,6 +90,14 @@ class FeedbackAdmin(admin.ModelAdmin):
     request_post_html.short_description = "Request POST"
     request_files_html = _preformatted_display_method("request_files")
     request_files_html.short_description = "Request FILES"
+
+    def content_html(self, obj):
+        return linebreaksbr(obj.content)
+    content_html.short_description = "Content"
+
+    def screenshot_html(self, obj):
+        return "<a href=\"{url}\"><img src=\"{url}\" width=\"300\" /></a>".format(url=obj.screenshot.url)
+    screenshot_html.short_description = "Screenshot"
 
     # Admin API Methods
 
