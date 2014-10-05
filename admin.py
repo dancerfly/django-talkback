@@ -75,6 +75,9 @@ class FeedbackAdmin(admin.ModelAdmin):
         "request_files",
     )
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
     def mark_resolved(self, request, queryset):
         queryset.update(resolved=True)
     mark_resolved.short_description = "Mark these items as resolved."
