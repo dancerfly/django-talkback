@@ -38,6 +38,10 @@ class ResolvedListFilter(admin.SimpleListFilter):
         else:
             return queryset.filter(resolved=False)
 
+def _preformatted_display_method(attr_name):
+    def inner(self, obj):
+        return getattr(obj, attr_name).replace("\n","<br />").replace("  ","&nbsp;&nbsp;").replace("<br /> ","&nbsp;")
+    return inner
 
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ("timestamp", "__unicode__", "content", "resolved",)
@@ -55,8 +59,8 @@ class FeedbackAdmin(admin.ModelAdmin):
         ("Request Data", {
             'fields': (
                 ("view", "request_path", "request_method", "request_encoding",),
-                ("request_meta", "request_get",),
-                ("request_post", "request_files",),
+                ("request_meta_html", "request_get_html",),
+                ("request_post_html", "request_files_html",),
             )
         }),
     )
@@ -69,14 +73,28 @@ class FeedbackAdmin(admin.ModelAdmin):
         "request_path",
         "request_method",
         "request_encoding",
-        "request_meta",
-        "request_get",
-        "request_post",
-        "request_files",
+        "request_meta_html",
+        "request_get_html",
+        "request_post_html",
+        "request_files_html",
     )
+
+    # Custom Fields
+    request_meta_html = _preformatted_display_method("request_meta")
+    request_meta_html.short_description = "Request meta"
+    request_get_html = _preformatted_display_method("request_get")
+    request_get_html.short_description = "Request GET"
+    request_post_html = _preformatted_display_method("request_post")
+    request_post_html.short_description = "Request POST"
+    request_files_html = _preformatted_display_method("request_files")
+    request_files_html.short_description = "Request FILES"
+
+    # Admin API Methods
 
     def has_add_permission(self, request, obj=None):
         return False
+
+    # Actions
 
     def mark_resolved(self, request, queryset):
         queryset.update(resolved=True)

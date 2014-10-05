@@ -1,7 +1,10 @@
+import pprint
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core import serializers
 from django.utils.crypto import salted_hmac, constant_time_compare
+from django.utils.text import normalize_newlines
 
 from zenaida.contrib.feedback.models import FeedbackItem
 
@@ -11,6 +14,8 @@ class FeedbackForm(forms.ModelForm):
 
     The security implementation on this form is loosely based off of the
     implementation in django-contrib-comments.forms.CommentSecurityForm.
+
+    Initial fields that may contain newlines are normalized as a precaution.
 
     """
 
@@ -42,10 +47,10 @@ class FeedbackForm(forms.ModelForm):
             'request_path': request.path,
             'request_method': request.method,
             'request_encoding': request.encoding,
-            'request_meta': dict(request.META),
-            'request_get': dict(request.GET),
-            'request_post': dict(request.POST),
-            'request_files': dict(request.FILES),
+            'request_meta': normalize_newlines(pprint.pformat(dict(request.META))),
+            'request_get': normalize_newlines(pprint.pformat(dict(request.GET))),
+            'request_post': normalize_newlines(pprint.pformat(dict(request.POST))),
+            'request_files': normalize_newlines(pprint.pformat(dict(request.FILES))),
         }
         security_hash = self.generate_security_hash(**security_hash_dict)
 
@@ -53,17 +58,20 @@ class FeedbackForm(forms.ModelForm):
         self.initial.update({'security_hash': security_hash})
 
     def clean_security_hash(self):
-        """Check the security hash."""
+        """
+        Check the security hash. Fields that might have newlines need to be
+        normalized first due to client-side forms newline conversion.
+        """
         security_hash_dict = {
             'user': self.cleaned_data["user"],
             'view': self.cleaned_data["view"],
             'request_path': self.cleaned_data["request_path"],
             'request_method': self.cleaned_data["request_method"],
             'request_encoding': self.cleaned_data["request_encoding"],
-            'request_meta': self.cleaned_data["request_meta"],
-            'request_get': self.cleaned_data["request_get"],
-            'request_post': self.cleaned_data["request_post"],
-            'request_files': self.cleaned_data["request_files"],
+            'request_meta': normalize_newlines(self.cleaned_data["request_meta"]),
+            'request_get': normalize_newlines(self.cleaned_data["request_get"]),
+            'request_post': normalize_newlines(self.cleaned_data["request_post"]),
+            'request_files': normalize_newlines(self.cleaned_data["request_files"]),
         }
         expected_hash = self.generate_security_hash(**security_hash_dict)
         actual_hash = self.cleaned_data["security_hash"]
