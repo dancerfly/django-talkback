@@ -7,9 +7,9 @@ every page on your site.
 Installation
 ------------
 
-You can install the latest version of Django Talkback using ``pip``::
+You can install the latest release of Django Talkback using ``pip``::
 
-    $ pip install https://github.com/littleweaver/django-talkback/tarball/master
+    $ pip install django-talkback
 
 You can clone the repository yourself at https://github.com/littleweaver/django-talkback.
 
