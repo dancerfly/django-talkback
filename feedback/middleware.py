@@ -3,8 +3,8 @@ import re
 from django.conf import settings
 from django.utils.encoding import force_text
 
-from zenaida.contrib.feedback.settings import CONFIG
-from zenaida.contrib.feedback.utils import render_feedback_widget
+from feedback.settings import CONFIG
+from feedback.utils import render_feedback_widget
 
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')

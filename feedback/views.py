@@ -3,7 +3,7 @@ import json
 from django.http import (HttpResponse, HttpResponseNotAllowed,
                          HttpResponseBadRequest)
 
-from zenaida.contrib.feedback.forms import FeedbackForm
+from feedback.forms import FeedbackForm
 
 def feedback_ajax_submit(request):
     if not request.POST:
