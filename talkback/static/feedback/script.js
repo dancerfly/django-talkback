@@ -12,7 +12,7 @@
 	} else if ('zf' in window && 'jQuery' in window.zf) {
 		$ = zf.jQuery;
 	} else {
-		if ('console' in window) console.warn("Zenaida feedback does not work without jQuery. Please specify FEEDBACK_CONFIG['JQUERY_URL'] in settings.py.");
+		if ('console' in window) console.warn("Django talkback does not work without jQuery. Please specify TALKBACK_CONFIG['JQUERY_URL'] in settings.py.");
 		// Without jQuery, there's no sense in displaying the form:
 		var el = document.getElementById('ZenaidaFeedback');
 		el.parentNode.removeChild(el);

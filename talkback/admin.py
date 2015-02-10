@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.template.defaultfilters import linebreaksbr
 from django.utils.translation import ugettext_lazy as _
 
-from feedback.models import FeedbackItem
+from talkback.models import FeedbackItem
 
 class ResolvedListFilter(admin.SimpleListFilter):
     """

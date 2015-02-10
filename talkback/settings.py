@@ -8,7 +8,7 @@ CONFIG_DEFAULTS = {
     'IGNORED_NAMESPACES': ['admin']
 }
 
-USER_CONFIG = getattr(settings, 'FEEDBACK_CONFIG', {})
+USER_CONFIG = getattr(settings, 'TALKBACK_CONFIG', {})
 
 CONFIG = CONFIG_DEFAULTS.copy()
 CONFIG.update(USER_CONFIG)

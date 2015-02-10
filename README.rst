@@ -1,47 +1,47 @@
-Django Feedback
+Django Talkback
 ===============
 
-Django-Feedback is a pluggable Django app which adds a feedback form to
+Django-Talkback is a pluggable Django app which adds a feedback form to
 every page on your site.
 
 Installation
 ------------
 
-You can install the latest version of Django Feedback using ``pip``::
+You can install the latest version of Django Talkback using ``pip``::
 
-    $ pip install https://github.com/littleweaver/django-feedback/tarball/master
+    $ pip install https://github.com/littleweaver/django-talkback/tarball/master
 
-You can clone the repository yourself at https://github.com/littleweaver/django-feedack.
+You can clone the repository yourself at https://github.com/littleweaver/django-talkback.
 
 .. highlight:: python
 
 Setup
 -----
 
-Ensure that ``'feedback'`` is in your project's ``INSTALLED_APPS``::
+Ensure that ``'talkback'`` is in your project's ``INSTALLED_APPS``::
 
    INSTALLED_APPS = (
-       'feedback',
+       'talkback',
        ...
    )
 
 Add the following or similar anywhere in your URLconf::
 
    urlpatterns = patterns('',
-       url(r'^feedback/', include('feedback.urls')),
+       url(r'^talkback/', include('talkback.urls')),
        ...
    )
 
 Add the following to your ``settings.py`` file::
 
    MIDDLEWARE_CLASSES += (
-      'feedback.middleware.FeedbackMiddleware',
+      'talkback.middleware.TalkbackMiddleware',
       ...
    )
 
-Django Feedback relies on jQuery. If you do not already have jQuery in
+Django Talkback relies on jQuery. If you do not already have jQuery in
 your templates, add this to you ``settings.py`` file::
 
-   FEEDBACK_CONFIG = {
+   TALKBACK_CONFIG = {
       'JQUERY_URL': '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
    }

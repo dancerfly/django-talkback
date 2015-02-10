@@ -1,7 +1,7 @@
 {% load i18n staticfiles %}
 
 <style type="text/css">
-	@import url("{% static "feedback/styles.css" %}");
+	@import url("{% static "talkback/styles.css" %}");
 </style>
 <div id="ZenaidaFeedback">
 	<a class="zf-popup-tab" href="javascript:void(0);">{% trans "Give Feedback" %}</a>
@@ -10,7 +10,7 @@
 		<div class="zf-message zf-message-thanks"></div>
 		<div class="zf-form">
 			{# http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing #}
-			<form action="{% url 'feedback.views.feedback_ajax_submit' %}" enctype="multipart/form-data" method="post" autocomplete="off">
+			<form action="{% url 'talkback.views.feedback_ajax_submit' %}" enctype="multipart/form-data" method="post" autocomplete="off">
 				{% for field in form.visible_fields %}
 					<div class="zf-control-group" id="zf-{{ field.name }}-group">
 						{{ field.label_tag }}

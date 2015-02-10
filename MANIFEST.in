@@ -1,5 +1,5 @@
 include README.rst
 include LICENSE
 include MANIFEST.in
-recursive-include feedback/static *
-recursive-include feedback/templates *
+recursive-include talkback/static *
+recursive-include talkback/templates *

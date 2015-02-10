@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
-__version__ = __import__('feedback').__version__
+__version__ = __import__('talkback').__version__
 
 
 description = "A pluggable app for adding an AJAX feedback form to Django-powered websites."
 
 
 setup(
-    name="django-feedback",
+    name="django-talkback",
     version='.'.join([str(v) for v in __version__]),
-    url="http://github.com/littleweaver/django-feedback",
+    url="http://github.com/littleweaver/django-talkback",
     description=description,
     long_description=description,
     author='Little Weaver Web Collective, LLC',

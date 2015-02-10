@@ -3,14 +3,14 @@ import re
 from django.conf import settings
 from django.utils.encoding import force_text
 
-from feedback.settings import CONFIG
-from feedback.utils import render_feedback_widget
+from talkback.settings import CONFIG
+from talkback.utils import render_feedback_widget
 
 
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')
 
 
-class FeedbackMiddleware(object):
+class TalkbackMiddleware(object):
     """
     Middleware to attach the feedback form to all HTML responses.
 

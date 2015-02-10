@@ -6,7 +6,7 @@ from django.core import serializers
 from django.utils.crypto import salted_hmac, constant_time_compare
 from django.utils.text import normalize_newlines
 
-from feedback.models import FeedbackItem
+from talkback.models import FeedbackItem
 
 class FeedbackForm(forms.ModelForm):
     """
@@ -90,7 +90,7 @@ class FeedbackForm(forms.ModelForm):
                 request_path, request_method,
                 request_encoding, request_meta, request_get,
                 request_post, request_files]
-        key_salt = "feedback.FeedbackForm"
+        key_salt = "talkback.FeedbackForm"
         value = "-".join(info)
         return salted_hmac(key_salt, value).hexdigest()
 
