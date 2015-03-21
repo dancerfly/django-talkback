@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core import serializers
 from django.utils.crypto import salted_hmac, constant_time_compare
 from django.utils.text import normalize_newlines
+from django.views.debug import get_exception_reporter_filter
 
 from talkback.models import FeedbackItem
 
@@ -41,6 +42,9 @@ class FeedbackForm(forms.ModelForm):
     def __init__(self, request=None, *args, **kwargs):
         super(FeedbackForm, self).__init__(*args, **kwargs)
 
+        reporter_filter = get_exception_reporter_filter(request)
+        cleansed_post_parameters = reporter_filter.get_post_parameters(request)
+
         security_hash_dict = {
             'user': request.user if request.user.is_authenticated() else None,
             'view': request.resolver_match.view_name if request.resolver_match is not None else '',
@@ -49,7 +53,7 @@ class FeedbackForm(forms.ModelForm):
             'request_encoding': request.encoding,
             'request_meta': normalize_newlines(pprint.pformat(dict(request.META))),
             'request_get': normalize_newlines(pprint.pformat(dict(request.GET))),
-            'request_post': normalize_newlines(pprint.pformat(dict(request.POST))),
+            'request_post': normalize_newlines(pprint.pformat(cleansed_post_parameters)),
             'request_files': normalize_newlines(pprint.pformat(dict(request.FILES))),
         }
         security_hash = self.generate_security_hash(**security_hash_dict)
