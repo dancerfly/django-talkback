@@ -1,0 +1,7 @@
+You have received some feedback{% if site.name %} on {{ site.name }}{% endif %}:
+
+{{ feedback_item.content }}
+
+{% if feedback_item.screenshot %}[screenshot included]{% endif %}
+
+View details and resolve this item in your admin: http://{{ site.domain }}{% url "admin:talkback_feedbackitem_change" feedback_item.pk %}

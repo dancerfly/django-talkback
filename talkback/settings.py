@@ -1,11 +1,12 @@
-from django.conf import settings as settings
+from django.conf import settings
 
 __all__ = ('CONFIG',)
 
 CONFIG_DEFAULTS = {
     'INSERT_BEFORE': '</body>',
     'JQUERY_URL': None,
-    'IGNORED_NAMESPACES': ['admin']
+    'IGNORED_NAMESPACES': ['admin'],
+    'FEEDBACK_RECIPIENTS': settings.ADMINS,
 }
 
 USER_CONFIG = getattr(settings, 'TALKBACK_CONFIG', {})
