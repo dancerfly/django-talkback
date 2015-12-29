@@ -86,10 +86,10 @@ class FeedbackForm(forms.ModelForm):
         Generate a HMAC security hash from the provided info.
         """
         # Convert values to strings in order to hash them together:
-        info = [str(x) if x is not None else "" for x in user, view,
+        info = [str(x) if x is not None else "" for x in [user, view,
                 request_path, request_method,
                 request_encoding, request_meta, request_get,
-                request_post, request_files]
+                request_post, request_files]]
         key_salt = "talkback.FeedbackForm"
         value = "-".join(info)
         return salted_hmac(key_salt, value).hexdigest()
