@@ -30,9 +30,12 @@
 	</div>
 </div>
 {% if config.JQUERY_URL %}
+	<script type="text/javascript">
+		var _zf_define_backup = window.define; window.define = undefined;
+	</script>
 	<script type="text/javascript" src="{{ config.JQUERY_URL }}"></script>
 	<script type="text/javascript">
-		window.zf = {'jQuery': jQuery.noConflict(true)};
+		window.zf = {jQuery: jQuery.noConflict(true)}; window.define = _zf_define_backup;
 	</script>
 {% endif %}
 <script type="text/javascript" src="{% static "talkback/script.js"%}"></script>
