@@ -1,5 +1,5 @@
 *.pyc
 /*.egg-info/
 /test_project/test_project/media/
-/test_project/db.sqlite3
+/test_project/test_project/db.sl3
 .sass-cache
