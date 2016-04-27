@@ -7,6 +7,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from talkback.forms import FeedbackForm
 from talkback.utils.emails import send_notification_email
 
+
 def feedback_ajax_submit(request):
     if not request.POST:
         return HttpResponseNotAllowed(['POST'])

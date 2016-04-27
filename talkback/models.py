@@ -30,7 +30,7 @@ class FeedbackItem(models.Model):
     def __unicode__(self):
         return "{username} at {path}".format(
             username=self.user.get_full_name(),
-            path = self.request_path
+            path=self.request_path
         )
 
     class Meta:

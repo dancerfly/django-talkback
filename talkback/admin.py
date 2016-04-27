@@ -1,9 +1,9 @@
-from django.conf import settings
 from django.contrib import admin
 from django.template.defaultfilters import linebreaksbr
 from django.utils.translation import ugettext_lazy as _
 
 from talkback.models import FeedbackItem
+
 
 class ResolvedListFilter(admin.SimpleListFilter):
     """
@@ -40,10 +40,12 @@ class ResolvedListFilter(admin.SimpleListFilter):
         else:
             return queryset.filter(resolved=False)
 
+
 def _preformatted_display_method(attr_name):
     def inner(self, obj):
-        return linebreaksbr(getattr(obj, attr_name).replace("  ","&nbsp;&nbsp;").replace("\n ","&nbsp;"))
+        return linebreaksbr(getattr(obj, attr_name).replace("  ", "&nbsp;&nbsp;").replace("\n ", "&nbsp;"))
     return inner
+
 
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ("timestamp", "__unicode__", "content", "resolved",)

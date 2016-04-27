@@ -2,11 +2,11 @@ import pprint
 
 from django import forms
 from django.contrib.auth import get_user_model
-from django.core import serializers
 from django.utils.crypto import salted_hmac, constant_time_compare
 from django.utils.text import normalize_newlines
 
 from talkback.models import FeedbackItem
+
 
 class FeedbackForm(forms.ModelForm):
     """
