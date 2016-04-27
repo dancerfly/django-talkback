@@ -58,7 +58,10 @@ class FeedbackAdmin(admin.ModelAdmin):
             'fields': ('resolved',)
         }),
         ("Content", {
-            'fields': ("user", ("content_html", "screenshot_html",),)
+            'fields': (
+                ("user", "user_email"),
+                ("content_html", "screenshot_html"),
+            )
         }),
         ("Request Data", {
             'fields': (
@@ -71,6 +74,7 @@ class FeedbackAdmin(admin.ModelAdmin):
 
     readonly_fields = (
         "user",
+        "user_email",
         "content_html",
         "screenshot_html",
         "view",
@@ -92,6 +96,9 @@ class FeedbackAdmin(admin.ModelAdmin):
     request_post_html.short_description = "Request POST"
     request_files_html = _preformatted_display_method("request_files")
     request_files_html.short_description = "Request FILES"
+
+    def user_email(self, obj):
+        return obj.user.email
 
     def content_html(self, obj):
         return linebreaksbr(obj.content)
